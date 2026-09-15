@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SRU · University</title>
+  <!-- Font Awesome 6 (free) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* ---------- GLOBAL RESET & DESIGN TOKENS ---------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --sru-blue: #0a2540;
+      --sru-gold: #d4af37;
+      --sru-soft: #f9fafc;
+      --sru-gray: #5b6f82;
+      --sru-light-gray: #eef2f6;
+      --sru-white: #ffffff;
+      --sru-shadow: 0 20px 35px -8px rgba(10, 37, 64, 0.12), 0 8px 18px -6px rgba(10, 37, 64, 0.08);
+      --sru-radius: 24px;
+      --sru-radius-sm: 14px;
+      --sru-transition: all 0.25s ease;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background-color: var(--sru-soft);
+      color: var(--sru-blue);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ---------- TYPOGRAPHY & LINKS ---------- */
+    h1, h2, h3, h4 {
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    h1 {
+      font-size: clamp(2.8rem, 8vw, 4.8rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+    }
+
+    h2 {
+      font-size: clamp(2rem, 5vw, 2.8rem);
+    }
+
+    h3 {
+      font-size: 1.5rem;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ---------- LAYOUT CONTAINERS ---------- */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* ---------- HEADER / NAVIGATION ---------- */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      font-size: 1.9rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--sru-blue);
+    }
+
+    .logo i {
+      color: var(--sru-gold);
+      font-size: 2.2rem;
+      filter: drop-shadow(0 4px 6px rgba(212, 175, 55, 0.25));
+    }
+
+    .logo span {
+      background: linear-gradient(135deg, var(--sru-blue) 0%, #1e3b5a 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+      font-weight: 500;
+      color: var(--sru-gray);
+    }
+
+    .nav-links a {
+      transition: var(--sru-transition);
+      font-size: 1rem;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--sru-gold);
+      transition: var(--sru-transition);
+    }
+
+    .nav-links a:hover {
+      color: var(--sru-blue);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      padding: 0.9rem 2rem;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      border: none;
+      cursor: pointer;
+      transition: var(--sru-transition);
+      background: var(--sru-blue);
+      color: white;
+      box-shadow: 0 8px 18px -6px rgba(10, 37, 64, 0.2);
+      white-space: nowrap;
+    }
+
+    .btn i {
+      font-size: 0.9rem;
+    }
+
+    .btn:hover {
+      background: #0f2e4a;
+      transform: translateY(-2px);
+      box-shadow: 0 16px 25px -8px rgba(10, 37, 64, 0.3);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--sru-blue);
+      border: 1.5px solid rgba(10, 37, 64, 0.2);
+      box-shadow: none;
+    }
+
+    .btn-outline:hover {
+      background: rgba(10, 37, 64, 0.03);
+      border-color: var(--sru-blue);
+      transform: translateY(-2px);
+    }
+
+    /* ---------- HERO SECTION ---------- */
+    .hero {
+      padding: 3rem 0 5rem;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: rgba(212, 175, 55, 0.15);
+      color: #8a6d1f;
+      padding: 0.45rem 1.2rem;
+      border-radius: 60px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      backdrop-filter: blur(4px);
+    }
+
+    .hero h1 {
+      margin-bottom: 1.5rem;
+      color: var(--sru-blue);
+    }
+
+    .hero h1 i {
+      color: var(--sru-gold);
+      font-style: normal;
+      display: inline-block;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: var(--sru-gray);
+      margin-bottom: 2.5rem;
+      max-width: 90%;
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--sru-blue);
+      line-height: 1.2;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: var(--sru-gray);
+      font-weight: 500;
+      letter-spacing: 0.2px;
+    }
+
+    /* Hero visual — right side */
+    .hero-visual {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .campus-card {
+      background: var(--sru-white);
+      border-radius: var(--sru-radius);
+      padding: 2.5rem 2rem;
+      box-shadow: var(--sru-shadow);
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(4px);
+      transition: var(--sru-transition);
+    }
+
+    .campus-card:hover {
+      transform: scale(1.01);
+    }
+
+    .campus-icon {
+      font-size: 2.5rem;
+      color: var(--sru-gold);
+      margin-bottom: 1.5rem;
+    }
+
+    .campus-card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+    }
+
+    .campus-card p {
+      color: var(--sru-gray);
+      font-size: 1rem;
+      margin-bottom: 1.8rem;
+    }
+
+    .badge-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .badge {
+      background: var(--sru-light-gray);
+      padding: 0.4rem 1rem;
+      border-radius: 60px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--sru-blue);
+    }
+
+    .badge i {
+      color: var(--sru-gold);
+      margin-right: 5px;
+      font-size: 0.75rem;
+    }
+
+    /* ---------- SECTION: PROGRAMS ---------- */
+    .section {
+      padding: 5rem 0;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 3.5rem;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    .section-header h2 {
+      max-width: 600px;
+    }
+
+    .section-header p {
+      color: var(--sru-gray);
+      font-size: 1.1rem;
+      max-width: 450px;
+    }
+
+    .program-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+    }
+
+    .program-card {
+      background: var(--sru-white);
+      border-radius: var(--sru-radius-sm);
+      padding: 2rem 1.8rem;
+      transition: var(--sru-transition);
+      border: 1px solid rgba(10, 37, 64, 0.05);
+      box-shadow: 0 6px 12px -6px rgba(10, 37, 64, 0.05);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .program-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--sru-shadow);
+      border-color: rgba(212, 175, 55, 0.3);
+    }
+
+    .program-icon {
+      width: 54px;
+      height: 54px;
+      background: rgba(10, 37, 64, 0.04);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+      color: var(--sru-blue);
+      transition: var(--sru-transition);
+    }
+
+    .program-card:hover .program-icon {
+      background: rgba(212, 175, 55, 0.15);
+      color: var(--sru-gold);
+    }
+
+    .program-card h3 {
+      font-size: 1.35rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .program-card p {
+      color: var(--sru-gray);
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+      flex: 1;
+    }
+
+    .program-link {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--sru-blue);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: var(--sru-transition);
+      margin-top: auto;
+    }
+
+    .program-link i {
+      font-size: 0.8rem;
+      transition: var(--sru-transition);
+    }
+
+    .program-link:hover {
+      color: #1e3b5a;
+    }
+
+    .program-link:hover i {
+      transform: translateX(5px);
+    }
+
+    /* ---------- CTA BANNER ---------- */
+    .cta-banner {
+      background: linear-gradient(135deg, #0a2540 0%, #1b3b5c 100%);
+      border-radius: var(--sru-radius);
+      padding: 4rem 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 2.5rem;
+      color: white;
+      margin: 3rem 0 2rem;
+      box-shadow: 0 30px 40px -20px rgba(10, 37, 64, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-banner::after {
+      content: '';
+      position: absolute;
+      top: -30%;
+      right: -10%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.25) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .cta-banner h2 {
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      margin-bottom: 0.5rem;
+      color: white;
+    }
+
+    .cta-banner p {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 1.1rem;
+      max-width: 550px;
+    }
+
+    .cta-banner .btn {
+      background: var(--sru-gold);
+      color: var(--sru-blue);
+      font-weight: 700;
+      box-shadow: 0 10px 20px -8px rgba(212, 175, 55, 0.5);
+      border: none;
+      padding: 1.1rem 2.8rem;
+    }
+
+    .cta-banner .btn:hover {
+      background: #e0bc4b;
+      transform: translateY(-3px);
+    }
+
+    /* ---------- FOOTER ---------- */
+    .footer {
+      padding: 3rem 0 2rem;
+      border-top: 1px solid rgba(10, 37, 64, 0.06);
+      margin-top: 2rem;
+      color: var(--sru-gray);
+    }
+
+    .footer-grid {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: var(--sru-blue);
+    }
+
+    .footer-logo i {
+      color: var(--sru-gold);
+    }
+
+    .footer-copy {
+      font-size: 0.9rem;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 1.5rem;
+      font-size: 1.3rem;
+      color: var(--sru-gray);
+    }
+
+    .footer-social a {
+      transition: var(--sru-transition);
+    }
+
+    .footer-social a:hover {
+      color: var(--sru-gold);
+      transform: translateY(-2px);
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 1024px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+
+      .hero p {
+        max-width: 100%;
+      }
+
+      .hero-visual {
+        justify-content: flex-start;
+      }
+
+      .campus-card {
+        max-width: 500px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 1.5rem;
+      }
+
+      .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nav-links {
+        gap: 1.5rem;
+        flex-wrap: wrap;
+      }
+
+      .hero {
+        padding: 1.5rem 0 3rem;
+      }
+
+      .section {
+        padding: 3rem 0;
+      }
+
+      .cta-banner {
+        padding: 2.5rem 2rem;
+        text-align: center;
+        justify-content: center;
+      }
+
+      .cta-banner p {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .footer-grid {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .hero-stats {
+        gap: 1.5rem;
+      }
+
+      .stat-number {
+        font-size: 1.8rem;
+      }
+    }
+
+    /* ---------- SMOOTH SCROLL & SELECTION ---------- */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    ::selection {
+      background: var(--sru-gold);
+      color: var(--sru-blue);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========== HEADER / NAV ========== -->
+  <header class="container">
+    <nav class="navbar">
+      <div class="logo">
+        <i class="fas fa-university"></i>
+        <span>SRU</span>
+      </div>
+      <div class="nav-links">
+        <a href="#">Academics</a>
+        <a href="#">Admissions</a>
+        <a href="#">Research</a>
+        <a href="#">Campus Life</a>
+        <a href="#">About</a>
+      </div>
+      <a href="#" class="btn">
+        <i class="fas fa-arrow-right-to-bracket"></i> Apply Now
+      </a>
+    </nav>
+  </header>
+
+  <!-- ========== HERO SECTION ========== -->
+  <section class="hero container">
+    <div class="hero-grid">
+      <!-- Left column -->
+      <div class="hero-content">
+        <div class="hero-badge">
+          <i class="fas fa-star"></i> Ranked #1 for innovation
+        </div>
+        <h1>
+          Shaping <i>tomorrow's</i> leaders at SRU
+        </h1>
+        <p>
+          Welcome to SRU — a place where curiosity meets purpose, and every idea has the power to change the world.
+        </p>
+        <div class="hero-actions">
+          <a href="#" class="btn">
+            <i class="fas fa-graduation-cap"></i> Explore Programs
+          </a>
+          <a href="#" class="btn btn-outline">
+            <i class="fas fa-play"></i> Virtual Tour
+          </a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-number">18k+</span>
+            <span class="stat-label">Students</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">250+</span>
+            <span class="stat-label">Programs</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">94%</span>
+            <span class="stat-label">Graduate success</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right column: card visual -->
+      <div class="hero-visual">
+        <div class="campus-card">
+          <div class="campus-icon">
+            <i class="fas fa-map-pin"></i>
+          </div>
+          <h3>Main Campus · Riverside</h3>
+          <p>
+            200 acres of green innovation, state-of-the-art labs, and collaborative spaces designed for the future.
+          </p>
+          <div class="badge-list">
+            <span class="badge"><i class="fas fa-check-circle"></i> Smart classrooms</span>
+            <span class="badge"><i class="fas fa-check-circle"></i> 24/7 library</span>
+            <span class="badge"><i class="fas fa-check-circle"></i> Startup incubator</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== PROGRAMS SECTION ========== -->
+  <section class="section container">
+    <div class="section-header">
+      <h2>Find your path at SRU</h2>
+      <p>World-class programs designed to ignite your potential and prepare you for what's next.</p>
+    </div>
+    <div class="program-grid">
+      <!-- card 1 -->
+      <div class="program-card">
+        <div class="program-icon">
+          <i class="fas fa-microchip"></i>
+        </div>
+        <h3>Computer Science</h3>
+        <p>AI, machine learning, and full-stack development — built for the digital age.</p>
+        <a href="#" class="program-link">
+          Learn more <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+      <!-- card 2 -->
+      <div class="program-card">
+        <div class="program-icon">
+          <i class="fas fa-chart-line"></i>
+        </div>
+        <h3>Business Analytics</h3>
+        <p>Data-driven decision making, finance, and strategy for tomorrow's market leaders.</p>
+        <a href="#" class="program-link">
+          Learn more <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+      <!-- card 3 -->
+      <div class="program-card">
+        <div class="program-icon">
+          <i class="fas fa-heartbeat"></i>
+        </div>
+        <h3>Health Sciences</h3>
+        <p>Advancing patient care through research, innovation, and clinical excellence.</p>
+        <a href="#" class="program-link">
+          Learn more <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+      <!-- card 4 -->
+      <div class="program-card">
+        <div class="program-icon">
+          <i class="fas fa-leaf"></i>
+        </div>
+        <h3>Environmental Studies</h3>
+        <p>Sustainability, climate policy, and green technology for a resilient planet.</p>
+        <a href="#" class="program-link">
+          Learn more <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CTA BANNER ========== -->
+  <div class="container">
+    <div class="cta-banner">
+      <div>
+        <h2>Ready to join SRU?</h2>
+        <p>Applications for Fall 2026 are now open. Take the first step toward your future.</p>
+      </div>
+      <a href="#" class="btn">
+        <i class="fas fa-pen-fancy"></i> Start Application
+      </a>
+    </div>
+  </div>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="container footer">
+    <div class="footer-grid">
+      <div class="footer-logo">
+        <i class="fas fa-university"></i> SRU
+      </div>
+      <div class="footer-copy">
+        © 2026 SRU University. All rights reserved.
+      </div>
+      <div class="footer-social">
+        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
